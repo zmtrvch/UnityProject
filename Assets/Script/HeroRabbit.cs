@@ -4,25 +4,106 @@ using UnityEngine;
 
 public class HeroRabbit : MonoBehaviour {
 	
+	float timeToWait = 0.06f;
+	public int MaxHealth = 2;
+	int health = 1;
+	public static HeroRabbit current;
+	Transform heroParent = null;
 	public float speed = 3;
 	Rigidbody2D myBody = null;
+	Animator myController = null;
 	bool isGrounded = false;
 	bool JumpActive = false;
 	float JumpTime = 0f;
 	public float MaxJumpTime = 2f;
 	public float JumpSpeed = 2f;
+	bool isSuper = false;
+	bool colidedBomb = false;
+	public float WaitTime = 2f;
+	float to_wait = 0f;
+
+	    void Awake()
+	  {
+	       current = this;
+		   to_wait = WaitTime;
+		  }
+
 
 	// Use this for initialization
 	void Start()
 	{
 		myBody = this.GetComponent<Rigidbody2D>();
+		myController = this.GetComponent<Animator>();
+		//Зберегти стандартний батьківський GameObject
+		this.heroParent = this.transform.parent;
 	//}
 
 	// Update is called once per frame
 	//void Update () {
 	LevelController.current.setStartPosition(transform.position);
 	}
+	public void addHealth(int number)
+	{
+		this.health += number;
+		if (this.health > MaxHealth)
+			this.health = MaxHealth;
+		this.onHealthChange();
+	}
 
+	public void removeHealth(int number)
+	{
+		this.health -= number;
+		if (this.health < 0)
+			this.health = 0;
+		this.onHealthChange();
+	}
+
+	void onHealthChange()
+	{
+		if (this.health == 1)
+		{
+			this.transform.localScale = Vector3.one;
+		}
+		else if (this.health == 2)
+		{
+			this.transform.localScale = Vector3.one * 2;
+		}
+		else if (this.health == 0)
+		{
+			LevelController.current.onRabitDeath(this);
+		}
+	}
+
+	public void becomeSuper()
+	{
+		if (!isSuper)
+		{
+			isSuper = true;
+			transform.localScale += new Vector3(0.5F, 0.5f, 0);
+		}
+	}
+
+	public void colideBomb()
+	{
+		Animator animator = GetComponent<Animator>();
+		if (isSuper)
+		{
+			isSuper = false;
+			transform.localScale += new Vector3(-0.5F, -0.5f, 0);
+		}
+		else
+		{
+			colidedBomb = true;
+			animator.SetBool("dead", true);
+
+			LevelController.current.onRabitDeath (this);
+			animator.SetBool ("dead", false);
+
+		
+
+
+		}
+	}
 	void FixedUpdate () {
 		float value = Input.GetAxis ("Horizontal");
 
@@ -57,10 +138,17 @@ public class HeroRabbit : MonoBehaviour {
 		if (hit)
 		{
 			isGrounded = true;
+			if (hit.transform != null && hit.transform.GetComponent<MovingPlatform>() != null)
+				 {
+				  //Приліпаємо до платформи
+				  SetNewParent(this.transform, hit.transform);
+				 }
+		
 		}
 		else
 		{
 			isGrounded = false;
+			SetNewParent(this.transform, this.heroParent);
 		}
 
 		//Намалювати лінію (для розробника)
@@ -100,4 +188,19 @@ public class HeroRabbit : MonoBehaviour {
 		}
 	
 	}
+	static void SetNewParent(Transform obj, Transform new_parent)
+	{
+		if (obj.transform.parent != new_parent)
+		{
+			//Засікаємо позицію у Глобальних координатах
+			Vector3 pos = obj.transform.position;
+			//Встановлюємо нового батька
+			obj.transform.parent = new_parent;
+			//Після зміни батька координати кролика зміняться
+			//Оскільки вони тепер відносно іншого об’єкта
+			//повертаємо кролика в ті самі глобальні координати
+			obj.transform.position = pos;
+		}
+	}
+	    
 }

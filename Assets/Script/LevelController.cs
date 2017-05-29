@@ -17,4 +17,16 @@ public class LevelController : MonoBehaviour {
 		//При смерті кролика повертаємо на початкову позицію
 		rabit.transform.position = this.startingPosition;
 	}
+	public void addCoins(int number)
+	{
+		Debug.Log("Coins collected " + number);
+	}
+	public void addFruit(int number)
+	{
+		Debug.Log("Fruits collected " + number);
+	}
+	public void addCrystal(int number)
+	{
+		Debug.Log("Crystals collected " + number);
+	}
 }
