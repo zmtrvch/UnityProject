@@ -21,10 +21,9 @@ public class HeroRabbit : MonoBehaviour {
 	bool colidedBomb = false;
 	public float WaitTime = 2f;
 	float to_wait = 0f;
-
 	    void Awake()
 	  {
-	       current = this;
+	      current = this;
 		   to_wait = WaitTime;
 		  }
 
@@ -37,6 +36,7 @@ public class HeroRabbit : MonoBehaviour {
 		//Зберегти стандартний батьківський GameObject
 		this.heroParent = this.transform.parent;
 	//}
+
 
 	// Update is called once per frame
 	//void Update () {
@@ -83,9 +83,11 @@ public class HeroRabbit : MonoBehaviour {
 		}
 	}
 
+
 	public void colideBomb()
 	{
 		Animator animator = GetComponent<Animator>();
+
 		if (isSuper)
 		{
 			isSuper = false;
@@ -94,15 +96,22 @@ public class HeroRabbit : MonoBehaviour {
 		else
 		{
 			colidedBomb = true;
-			animator.SetBool("dead", true);
+			StartCoroutine (dieAnimation(2.0f));
 
-			LevelController.current.onRabitDeath (this);
-			animator.SetBool ("dead", false);
 
 		
 
 
 		}
+	}
+	public IEnumerator dieAnimation (float time){
+		Animator animator = GetComponent<Animator>();
+
+		animator.SetBool("die", true);
+		yield return new WaitForSeconds (time);
+		animator.SetBool("die", false);
+		LevelController.current.onRabitDeath(this);
+
 	}
 	void FixedUpdate () {
 		float value = Input.GetAxis ("Horizontal");
