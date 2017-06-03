@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HeroRabbit : MonoBehaviour {
-	
+
 	float timeToWait = 0.06f;
 	public int MaxHealth = 2;
-	int health = 1;
+	public int health = 1;
 	public static HeroRabbit current;
 	Transform heroParent = null;
 	public float speed = 3;
@@ -17,7 +17,7 @@ public class HeroRabbit : MonoBehaviour {
 	float JumpTime = 0f;
 	public float MaxJumpTime = 2f;
 	public float JumpSpeed = 2f;
-	bool isSuper = false;
+	public bool isSuper = false;
 	bool colidedBomb = false;
 	public float WaitTime = 2f;
 	float to_wait = 0f;
@@ -103,6 +103,9 @@ public class HeroRabbit : MonoBehaviour {
 
 
 		}
+	}
+	public void Die(){
+		StartCoroutine (dieAnimation(2.0f));
 	}
 	public IEnumerator dieAnimation (float time){
 		Animator animator = GetComponent<Animator>();
