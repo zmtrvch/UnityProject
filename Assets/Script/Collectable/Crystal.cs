@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Crystal : Collectable {
+
+	string spriteName;
+
 	public override void OnRabitHit(HeroRabbit rabit)
 	{
-		LevelController.current.addCrystal(1);
+		
+		CrystalPanel.crystals.Crystals (name);
 		this.CollectedHide();
 	}
 }

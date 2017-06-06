@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class HeroRabbit : MonoBehaviour {
@@ -104,6 +105,7 @@ public class HeroRabbit : MonoBehaviour {
 
 		}
 	}
+
 	public void Die(){
 		StartCoroutine (dieAnimation(2.0f));
 	}
