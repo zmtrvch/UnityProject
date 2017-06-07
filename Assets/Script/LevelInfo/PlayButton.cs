@@ -6,7 +6,7 @@ public class PlayButton : MonoBehaviour
 {
 	public void _onClick()
 	{
-		SceneManager.LoadScene ("LevelSelect");
-		Debug.Log ("Click");
+		SceneManager.LoadScene ("Levels");
+
 	}
 }

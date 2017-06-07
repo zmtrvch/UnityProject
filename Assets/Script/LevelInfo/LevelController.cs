@@ -11,8 +11,9 @@ public class LevelController : MonoBehaviour {
 	int CrystalColor = -1;
 
 	public static LevelController current;
-
-
+	void Awake() {
+		current = this;
+	}
 
 	Vector3 startingPosition;
 	public void setStartPosition(Vector3 pos) {
@@ -53,7 +54,7 @@ public class LevelController : MonoBehaviour {
 
 	void decreaseLifeNumber() {
 		if (lifesNumber <= 0) {
-			lifesNumber = 3; //оновлюемо життя
+			SceneManager.LoadScene ("Levels"); //оновлюемо життя
 		} else {
 			lifesNumber--;
 		}
