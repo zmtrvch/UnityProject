@@ -11,5 +11,6 @@ public class Crystal : Collectable {
 		
 		CrystalPanel.crystals.Crystals (name);
 		this.CollectedHide();
+		rabit.playMusicOnCrystal ();
 	}
 }

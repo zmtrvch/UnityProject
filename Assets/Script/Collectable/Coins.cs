@@ -8,5 +8,6 @@ public class Coins : Collectable {
 	{
 		LevelController.current.addCoins(1);
 		this.CollectedHide();
+		rabit.playMusicOnCoin ();
 	}
 }

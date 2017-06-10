@@ -13,6 +13,7 @@ public class DeathHere : MonoBehaviour {
 		//Впасти міг не тільки кролик
 		if(rabit != null) {
 			//Повідомляємо рівень, про смерть кролика
+			HeroRabbit.current.playMusicOnDeath();
 			LevelController.current.onRabitDeath(rabit);
 		}
 	}

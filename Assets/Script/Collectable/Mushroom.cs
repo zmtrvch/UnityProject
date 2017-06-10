@@ -8,5 +8,6 @@ public class Mushroom : Collectable {
 	{
 		HeroRabbit.current.becomeSuper();
 		this.CollectedHide();
+		rabit.playMusicOnMushroom ();
 	}
 }

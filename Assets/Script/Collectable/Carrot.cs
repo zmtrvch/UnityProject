@@ -53,6 +53,8 @@ public class Carrot : Collectable
 	public override void OnRabitHit(HeroRabbit rabit)
 	{
 		this.CollectedHide();
-		rabit.removeHealth(1);
+		HeroRabbit.current.Die ();
+
+
 	}
 }

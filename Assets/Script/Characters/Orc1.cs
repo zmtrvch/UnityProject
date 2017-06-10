@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Orc1 : MonoBehaviour {
+	bool sound = true;
+	//sounds 
+	AudioSource attackSource = null;
+	public AudioClip attackSound = null;
 
 	public float speed = 1.0f;
 	public Vector3 moveBy = Vector3.one;
@@ -25,6 +29,11 @@ public class Orc1 : MonoBehaviour {
 
 	void Start()
 	{
+		//sounds
+		attackSource = gameObject.AddComponent<AudioSource> ();
+		attackSource.clip = attackSound;
+
+
 		this.myBody = this.GetComponent<Rigidbody2D>();
 		this.pointA = this.transform.position;
 
@@ -39,13 +48,17 @@ public class Orc1 : MonoBehaviour {
 	void FixedUpdate()
 	{
 		setMode();
-
 		run();
 		StartCoroutine(die());
 
 	}
 
-
+	public void  setSoundOff(){
+		sound = false;
+	}
+	public void setSoundOn(){
+		sound = true;
+	}
 	private void setMode()
 	{
 		Vector3 rabit_pos = HeroRabbit.current.transform.position;
@@ -74,15 +87,22 @@ public class Orc1 : MonoBehaviour {
 		else currentMode = Mode.GoToB;
 	}
 
+	public void playAttackMusic(){
+		if(sound)
+		attackSource.Play ();
+	}
+
+
 
 	private IEnumerator attack(HeroRabbit rabit)
 	{ 
 		Animator animator = GetComponent<Animator>();
-
-
 		animator.SetBool("attack", true);
-		rabit.removeHealth(1);
+		playAttackMusic ();
+		HeroRabbit.current.Die ();
 		yield return new WaitForSeconds(1.0f);
+
+
 
 		animator.SetBool("attack", false);       
 	}

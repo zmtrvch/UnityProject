@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 50194077169893864}
   - component: {fileID: 61633517376356694}
   - component: {fileID: 95977929579514026}
+  - component: {fileID: 114158692040220006}
   m_Layer: 0
   m_Name: Orc1
   m_TagString: Untagged
@@ -105,6 +106,22 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114158692040220006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1413220961385220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a99b23d1f49b6468f34a07969f997a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackSound: {fileID: 8300000, guid: ece9b14a232f14f48ab9a5e844cb5daf, type: 3}
+  dieSound: {fileID: 8300000, guid: 0da0a61767f664de1a8b3e03d7ca4d4e, type: 3}
+  speed: 1
+  moveBy: {x: 1, y: 1, z: 1}
+  currentMode: 1
 --- !u!212 &212994407187207692
 SpriteRenderer:
   m_ObjectHideFlags: 1

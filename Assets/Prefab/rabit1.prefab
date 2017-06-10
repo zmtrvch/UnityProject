@@ -117,9 +117,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b50a25340336eb9428cbf0f7dc0b1895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 2
+  health: 1
   speed: 4
   MaxJumpTime: 2
   JumpSpeed: 4
+  isSuper: 0
+  colidedBomb: 0
+  groundDeath: 0
+  WaitTime: 2
+  ScaleTime: 0
+  dieTime: 0
+  runSound: {fileID: 8300000, guid: 57a5b2120c2d04fa9bcb5b2e99ee9361, type: 3}
+  coinSound: {fileID: 8300000, guid: d07c1afb94cf04c50a369bdf0faaf7cf, type: 3}
+  crystalSound: {fileID: 8300000, guid: 1efea67b8444d4802941941e49c70cc0, type: 3}
+  fruitSound: {fileID: 8300000, guid: cd46aa2d6e78249dd8df3f3b948d168a, type: 3}
+  bombSound: {fileID: 8300000, guid: 0a239337795f5456b959aee0868bd6d6, type: 3}
+  mushroomSound: {fileID: 8300000, guid: 7e71b9428c0c54a65ad2831f0a140120, type: 3}
+  dieSound: {fileID: 8300000, guid: 7553580dee44e4f96b2efa5f4e5e17c3, type: 3}
+  groundSound: {fileID: 8300000, guid: 4678dc960a2b949329a55d696cf4ec68, type: 3}
+  attackSound: {fileID: 8300000, guid: ece9b14a232f14f48ab9a5e844cb5daf, type: 3}
 --- !u!212 &212430729738956300
 SpriteRenderer:
   m_ObjectHideFlags: 1

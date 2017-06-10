@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class HeroRabbit : MonoBehaviour {
 
-	float timeToWait = 0.06f;
 	public int MaxHealth = 2;
 	public int health = 1;
 	public static HeroRabbit current;
@@ -19,9 +18,35 @@ public class HeroRabbit : MonoBehaviour {
 	public float MaxJumpTime = 2f;
 	public float JumpSpeed = 2f;
 	public bool isSuper = false;
-	bool colidedBomb = false;
+	public bool colidedBomb = false;
+	public bool groundDeath = false;
 	public float WaitTime = 2f;
 	float to_wait = 0f;
+	public float ScaleTime;
+	public float dieTime;
+
+	//sounds
+	bool sound = true;
+	public AudioClip runSound = null;
+	public AudioClip coinSound = null;
+	public AudioClip crystalSound = null;
+	public AudioClip fruitSound = null;
+	public AudioClip bombSound = null;
+	public AudioClip mushroomSound = null;
+	public AudioClip dieSound = null;
+	public AudioClip groundSound = null;
+	public AudioClip attackSound = null;
+
+	AudioSource runSource = null;
+	AudioSource coinSource = null;
+	AudioSource crystalSource = null;
+	AudioSource fruitSource = null;
+	AudioSource bombSource = null;
+	AudioSource mushroomSource = null;
+	AudioSource dieSource = null;
+	AudioSource groundSource = null;
+	AudioSource attackSource = null;
+
 	    void Awake()
 	  {
 	      current = this;
@@ -32,6 +57,34 @@ public class HeroRabbit : MonoBehaviour {
 	// Use this for initialization
 	void Start()
 	{
+		//sounds
+		runSource = gameObject.AddComponent<AudioSource> ();
+		runSource.clip = runSound;
+
+		coinSource = gameObject.AddComponent<AudioSource> ();
+		coinSource.clip = coinSound;
+
+		crystalSource = gameObject.AddComponent<AudioSource> ();
+		crystalSource.clip = crystalSound;
+
+		fruitSource = gameObject.AddComponent<AudioSource> ();
+		fruitSource.clip = fruitSound;
+
+		bombSource = gameObject.AddComponent<AudioSource> ();
+		bombSource.clip = bombSound;
+
+		mushroomSource = gameObject.AddComponent<AudioSource> ();
+		mushroomSource.clip = mushroomSound;
+
+		dieSource = gameObject.AddComponent<AudioSource> ();
+		dieSource.clip = dieSound;
+
+		groundSource = gameObject.AddComponent<AudioSource> ();
+		groundSource.clip = groundSound;
+
+		attackSource = gameObject.AddComponent<AudioSource> ();
+		attackSource.clip = attackSound;
+
 		myBody = this.GetComponent<Rigidbody2D>();
 		myController = this.GetComponent<Animator>();
 		//Зберегти стандартний батьківський GameObject
@@ -72,6 +125,7 @@ public class HeroRabbit : MonoBehaviour {
 		else if (this.health == 0)
 		{
 			LevelController.current.onRabitDeath(this);
+
 		}
 	}
 
@@ -108,20 +162,57 @@ public class HeroRabbit : MonoBehaviour {
 
 	public void Die(){
 		StartCoroutine (dieAnimation(2.0f));
+
 	}
 	public IEnumerator dieAnimation (float time){
 		Animator animator = GetComponent<Animator>();
-
+		groundDeath = true;
+		playMusicOnDeath ();
 		animator.SetBool("die", true);
 		yield return new WaitForSeconds (time);
 		animator.SetBool("die", false);
 		LevelController.current.onRabitDeath(this);
 
 	}
+	//sounds 
+	public void playMusicOnCoin() {
+		if(sound)
+		coinSource.Play ();
+	}
+	public void playMusicOnFruit() {
+		if(sound)
+		fruitSource.Play ();
+	}
+
+	public void playMusicOnCrystal() {
+		if(sound)
+		crystalSource.Play ();
+	}
+
+	public void playMusicOnBomb() {
+		if(sound)
+		bombSource.Play ();
+	}
+
+	public void playMusicOnMushroom() {
+		if(sound)
+		mushroomSource.Play ();
+	}
+	public void playMusicOnDeath() {
+		if(sound)
+		dieSource.Play ();
+	}
+	public void  setSoundOff(){
+		sound = false;
+		}
+	public void setSoundOn(){
+		sound = true;
+		}
+
 	void FixedUpdate () {
 		float value = Input.GetAxis ("Horizontal");
 		if (SceneManager.GetActiveScene ().name == "MainMenu") {
-			Debug.Log ("No keyboard");
+			
 		} else {
 			Animator animator = GetComponent<Animator> ();
 
@@ -142,6 +233,8 @@ public class HeroRabbit : MonoBehaviour {
 				sr.flipX = true;
 			} else if (value > 0) {
 				sr.flipX = false;
+			} else {
+				muteMusicOnRun ();
 			}
 			Vector3 from = transform.position + Vector3.up * 0.3f;
 			Vector3 to = transform.position + Vector3.down * 0.1f;
@@ -167,6 +260,7 @@ public class HeroRabbit : MonoBehaviour {
 				this.JumpActive = true;
 			}
 			if (this.JumpActive) {
+				muteMusicOnRun ();
 				//Якщо кнопку ще тримають
 				if (Input.GetButton ("Jump")) {
 					this.JumpTime += Time.deltaTime;
@@ -174,7 +268,12 @@ public class HeroRabbit : MonoBehaviour {
 						Vector2 vel = myBody.velocity;
 						vel.y = JumpSpeed * (1.0f - JumpTime / MaxJumpTime);
 						myBody.velocity = vel;
+						if (!runSource.isPlaying)
+							runSource.Play ();
+					} else {
+						muteMusicOnRun ();
 					}
+
 				} else {
 					this.JumpActive = false;
 					this.JumpTime = 0;
@@ -185,8 +284,13 @@ public class HeroRabbit : MonoBehaviour {
 				animator.SetBool ("jump", false);
 			} else {
 				animator.SetBool ("jump", true);
+				groundSource.Play ();
 			}
 		}
+	}
+
+	public void muteMusicOnRun(){
+		runSource.Stop();
 	}
 	static void SetNewParent(Transform obj, Transform new_parent)
 	{

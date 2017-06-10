@@ -8,6 +8,8 @@ public class Bomb : Collectable {
 	{
 		this.CollectedHide();
 		HeroRabbit.current.colideBomb();
+		HeroRabbit.current.playMusicOnBomb ();
+
 
 	}
 }

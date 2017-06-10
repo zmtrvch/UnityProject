@@ -8,5 +8,6 @@ public class Fruit : Collectable {
 	{
 		LevelController.current.addFruit(1);
 		this.CollectedHide();
+		rabit.playMusicOnFruit ();
 	}
 }

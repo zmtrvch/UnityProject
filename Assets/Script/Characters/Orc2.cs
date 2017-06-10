@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Orc2 : MonoBehaviour {
 
+	bool sound = true;
 	public float speed = 1.0f;
 	public Vector3 moveBy = Vector3.one;
 	public float seen = 10.0f;
@@ -23,10 +24,21 @@ public class Orc2 : MonoBehaviour {
 	Vector3 pointA;
 	Vector3 pointB;
 	public Mode currentMode = Mode.GoToB;
+	//sounds
+	AudioSource attackSource = null;
+	public AudioClip attackSound = null;
 
 
 	void Start()
 	{
+		//sounds
+		attackSource = gameObject.AddComponent<AudioSource> ();
+		attackSource.clip = attackSound;
+
+
+		this.myBody = this.GetComponent<Rigidbody2D>();
+		this.pointA = this.transform.position;
+
 		this.myBody = this.GetComponent<Rigidbody2D>();
 		this.pointA = this.transform.position;
 		this.timeBefore = this.carrotPeriod;
@@ -57,14 +69,20 @@ public class Orc2 : MonoBehaviour {
 		}
 		else timeBefore += Time.deltaTime;
 	}
-
+	public void  setSoundOff(){
+		sound = false;
+	}
+	public void setSoundOn(){
+		sound = true;
+	}
 	private IEnumerator throwCarrot()
 	{
 
 		Animator animator = GetComponent<Animator>();
 
-
+		playAttackMusic ();
 		animator.SetBool("attack", true);
+
 		launchCarrot(getDirection());
 		yield return new WaitForSeconds(0.8f);
 
@@ -86,6 +104,11 @@ public class Orc2 : MonoBehaviour {
 		}
 	}
 
+
+	public void playAttackMusic(){
+		if(sound)
+		attackSource.Play ();
+	}
 	private void setMode()
 	{
 		Vector3 rabit_pos = HeroRabbit.current.transform.position;
@@ -117,11 +140,11 @@ public class Orc2 : MonoBehaviour {
 	private IEnumerator attack(HeroRabbit rabit)
 	{
 		Animator animator = GetComponent<Animator>();
-
+		playAttackMusic ();
 		animator.SetBool("attack", true);
 		rabit.removeHealth(1);
 		yield return new WaitForSeconds(0.8f);
-
+		playAttackMusic ();
 		animator.SetBool("attack", false);
 
 	}
@@ -144,6 +167,7 @@ public class Orc2 : MonoBehaviour {
 				else if (currentMode == Mode.StandartAttack && Mathf.Abs(rabit_pos.y - my_pos.y) > 1.0f)
 				{
 					currentMode = Mode.Die;
+
 				}
 
 			}

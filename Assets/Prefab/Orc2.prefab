@@ -122,6 +122,7 @@ MonoBehaviour:
   seen: 10
   carrotPeriod: 3
   currentMode: 1
+  attackSound: {fileID: 8300000, guid: ece9b14a232f14f48ab9a5e844cb5daf, type: 3}
   prefabCarrot: {fileID: 1080093720047394, guid: 04f47cdf3f0e26c4584845e64ffaa6e0,
     type: 2}
 --- !u!212 &212233200401868254
