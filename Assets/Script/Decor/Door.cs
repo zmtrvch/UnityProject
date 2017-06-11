@@ -13,7 +13,9 @@ public class Door : MonoBehaviour {
 		if (rabit != null)
 		{
 			SceneManager.LoadScene(sceneName);
+
 		}        
 	}
+
 
 }

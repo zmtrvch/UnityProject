@@ -28,6 +28,7 @@ public class HeroRabbit : MonoBehaviour {
 	//sounds
 	bool sound = true;
 	public AudioClip runSound = null;
+	public AudioClip winSound = null;
 	public AudioClip coinSound = null;
 	public AudioClip crystalSound = null;
 	public AudioClip fruitSound = null;
@@ -38,6 +39,7 @@ public class HeroRabbit : MonoBehaviour {
 	public AudioClip attackSound = null;
 
 	AudioSource runSource = null;
+	AudioSource winSource = null;
 	AudioSource coinSource = null;
 	AudioSource crystalSource = null;
 	AudioSource fruitSource = null;
@@ -69,6 +71,9 @@ public class HeroRabbit : MonoBehaviour {
 
 		fruitSource = gameObject.AddComponent<AudioSource> ();
 		fruitSource.clip = fruitSound;
+
+		winSource = gameObject.AddComponent<AudioSource> ();
+		winSource.clip = winSound;
 
 		bombSource = gameObject.AddComponent<AudioSource> ();
 		bombSource.clip = bombSound;
@@ -189,6 +194,10 @@ public class HeroRabbit : MonoBehaviour {
 		crystalSource.Play ();
 	}
 
+	public void playMusicOnWin() {
+		if(sound)
+			winSource.Play ();
+	}
 	public void playMusicOnBomb() {
 		if(sound)
 		bombSource.Play ();

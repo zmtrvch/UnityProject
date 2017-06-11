@@ -7,11 +7,13 @@ public class CrystalPanel : MonoBehaviour {
 	public Sprite first;
 	public Sprite second;
 	public Sprite third;
-
+	public bool one = false;
+	public bool two = false;
+	public bool three = false;
 
 	public static CrystalPanel crystals;
 
-	UI2DSprite[] gemComponents;
+	public UI2DSprite[] gemComponents;
 
 
 	private void Awake()
@@ -28,9 +30,16 @@ public class CrystalPanel : MonoBehaviour {
 	}
 
 	public void Crystals(string crystals) {
-		if (crystals == "gem-1") gemComponents[0].sprite2D = first;
-		else if (crystals == "gem-2") gemComponents[1].sprite2D = second;
-		else if (crystals == "gem-3") gemComponents[2].sprite2D = third;
+		if (crystals == "gem-1") {
+			gemComponents [0].sprite2D = first;
+			one = true;
+		} else if (crystals == "gem-2") {
+			gemComponents [1].sprite2D = second;
+			two = true;
+		} else if (crystals == "gem-3") {
+			gemComponents [2].sprite2D = third;
+			three = true;
+		}
 	}
 
 }

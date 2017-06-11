@@ -5,7 +5,7 @@ using UnityEngine;
 public class FruitsPanel : MonoBehaviour {
 	int currentNumber;
 	public int max;
-	public UILabel label;
+	public UILabel Frlabel;
 
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -16,6 +16,6 @@ public class FruitsPanel : MonoBehaviour {
 	}
 
 	void write() {
-		label.text = currentNumber.ToString () + "/" + max;
+		Frlabel.text = currentNumber.ToString () + "/" + max;
 	}
 }
