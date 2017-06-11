@@ -11,6 +11,8 @@ public class LevelController : MonoBehaviour {
 
 	public GameObject winPrefab;
 	public GameObject losePrefab;
+	public LivesPanel livesPanel;
+	public CrystalPanel crystalPanel;
 	public bool isChoseLevel;
 	public GameObject settingsPrefab;
 	public bool deathSound = false;
@@ -21,6 +23,9 @@ public class LevelController : MonoBehaviour {
 	public static bool isLevel1Complated;
 	public static bool isLevel2Complated;
 	public MyButton pause;
+	public UILabel labelCoins;
+	public UILabel labelFruits;
+	public UILabel allCoins;
 	int fruitsNumber = 0;
 	public int coinsNumber = 0;
 	int lifesNumber = 3;
@@ -29,6 +34,41 @@ public class LevelController : MonoBehaviour {
 	public static LevelController current;
 	void Awake() {
 		current = this;
+		//saving
+		int Level1Complated = PlayerPrefs.GetInt ("isLevel1Complated", 0);
+		if (Level1Complated == 1)
+			isLevel1Complated = true;
+		else
+			isLevel1Complated = false;
+		int Level2Complated = PlayerPrefs.GetInt ("isLevel2Complated", 0);
+		if (Level2Complated == 1)
+			isLevel2Complated = true;
+		else
+			isLevel2Complated = false;
+		int Level1Crystals = PlayerPrefs.GetInt ("isLevel1CrysralsCollected", 0);
+		if (Level1Crystals == 1)
+			isLevel1CrysralsCollected = true;
+		else
+			isLevel1CrysralsCollected = false;
+
+		int Level1Fruit = PlayerPrefs.GetInt ("isLevel1FruitCollected", 0);
+		if (Level1Fruit == 1)
+			isLevel1FruitCollected = true;
+		else
+			isLevel1FruitCollected = false;
+
+		int Level2Crystals = PlayerPrefs.GetInt ("isLevel2CrysralsCollected", 0);
+		if (Level2Crystals == 1)
+			isLevel2CrysralsCollected = true;
+		else
+			isLevel2CrysralsCollected = false;
+
+		int Level2Fruit = PlayerPrefs.GetInt ("isLevel2FruitCollected", 0);
+		if (Level2Fruit == 1)
+			isLevel2FruitCollected = true;
+		else
+			isLevel2FruitCollected = false;
+
 
 		//sounds
 		musicSource = gameObject.AddComponent<AudioSource>();
@@ -38,6 +78,18 @@ public class LevelController : MonoBehaviour {
 		this.pause.signalOnClick.AddListener (this.showSettings);
 	}
 
+	void Start(){
+
+
+
+		if(pause!=null)
+			this.pause.signalOnClick.AddListener (this.showSettings);
+
+
+
+		if(livesPanel!=null)
+			this.livesPanel.setLives();
+	}
 
 	Vector3 startingPosition;
 	public void setStartPosition(Vector3 pos) {
@@ -50,6 +102,7 @@ public class LevelController : MonoBehaviour {
 		rabit.transform.position = this.startingPosition;
 		Debug.Log ("Play");
 		deathSound = true;
+		this.livesPanel.setLives ();
 
 
 	}
@@ -104,6 +157,7 @@ public class LevelController : MonoBehaviour {
 		if (lifesNumber <= 0) {
 			//SceneManager.LoadScene ("Levels"); //оновлюемо життя
 			createLosePanel();
+
 		} else {
 			lifesNumber--;
 		}
@@ -127,6 +181,7 @@ public class LevelController : MonoBehaviour {
 	}
 
 	public void createWinPanel(){
+		
 		isLevel1Complated = true;
 		PlayerPrefs.SetInt ("isLevel1Complated", 1);
 		PlayerPrefs.Save ();
@@ -140,6 +195,12 @@ public class LevelController : MonoBehaviour {
 		win.setFruits (this.fruitsNumber,1);
 		win.setCrystal ();
 		Time.timeScale = 0;
+		collectedCoins += coinsNumber;
+		PlayerPrefs.SetInt ("collectedCoins",collectedCoins);
+
+		if (isLevel1CrysralsCollected)
+			PlayerPrefs.SetInt ("isLevel1CrysralsCollected", 1);
+		PlayerPrefs.Save ();
 	}
 
 	public void createWinPanel2(){

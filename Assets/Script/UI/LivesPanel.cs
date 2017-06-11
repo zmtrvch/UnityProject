@@ -20,7 +20,7 @@ public class LivesPanel : MonoBehaviour {
 					lifes [i].sprite2D = empty_life;
 		
 			} 
-	void setLives(){
+	public void setLives(){
 		if (LevelController.current.getLifes () == maxLifesNumber) {
 			for (int i = 0; i < maxLifesNumber; ++i) {
 				lifes [i].sprite2D = full_life;

@@ -62,6 +62,15 @@ public class WinPanel : MonoBehaviour {
 
 	public void setFruits(int fruits,int level){
 		this.fruits.text = LevelController.current.getFruits().ToString();
+		if (this.numberOfFruit == fruits) {
+						LevelController.isLevel1FruitCollected = true;
+						if(level==1)
+						PlayerPrefs.SetInt ("isLevel1FruitCollected",1);
+						if(level==2)
+								PlayerPrefs.SetInt ("isLevel2FruitCollected",1);
+						PlayerPrefs.Save ();
+				}
+
 
 	}
 
@@ -75,6 +84,16 @@ public class WinPanel : MonoBehaviour {
 		if (CrystalPanel.crystals.three == true) {
 			crystal3.sprite2D = crystalSprite3;
 		}
+		if(CrystalPanel.crystals.two == true&&CrystalPanel.crystals.one == true&&CrystalPanel.crystals.three == true) {
+						LevelController.isLevel1CrysralsCollected = true;
+			if (SceneManager.GetActiveScene().name == "Level1") {
+								PlayerPrefs.SetInt ("isLevel1CrysralsCollected", 1);
+						}
+			if (SceneManager.GetActiveScene().name == "Level2") {	
+							PlayerPrefs.SetInt ("isLevel2CrysralsCollected", 1);
+							}
+						PlayerPrefs.Save ();
+					}
 
 	}
 

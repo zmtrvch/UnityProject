@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class EndOfLevel2 : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collider) {
 	LevelController.current.createWinPanel2 ();
-		//LevelController.current.saveStatLevel2 ();
+	LevelController.current.saveStatLevel2 ();
 	}
 
 }
