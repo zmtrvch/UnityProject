@@ -57,7 +57,11 @@ public class WinPanel : MonoBehaviour {
 	}
 
 	public void setCoins(int coins){
+		
 		this.coins.text = LevelController.current.getCoins ().ToString ();
+
+
+
 	}
 
 	public void setFruits(int fruits,int level){

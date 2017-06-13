@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CoinsPanel : MonoBehaviour {
 	public int nullNumber; //кількість нулів
@@ -9,8 +10,15 @@ public class CoinsPanel : MonoBehaviour {
 
 
 	void FixedUpdate () {
-		current_number = LevelController.current.getCoins();
-		writeCoins ();
+		if (SceneManager.GetActiveScene ().name != "Levels") {
+			current_number = LevelController.current.getCoins ();
+			writeCoins ();
+		} else {
+			
+			label.text = "000"+LevelController.collectedCoins.ToString();
+		}
+
+
 	}
 
 	int getZeroNumber(int number) {

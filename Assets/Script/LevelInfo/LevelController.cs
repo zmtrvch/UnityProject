@@ -23,7 +23,6 @@ public class LevelController : MonoBehaviour {
 	public static bool isLevel1Complated;
 	public static bool isLevel2Complated;
 	public MyButton pause;
-	public UILabel labelCoins;
 	public UILabel labelFruits;
 	public UILabel allCoins;
 	int fruitsNumber = 0;
@@ -79,9 +78,7 @@ public class LevelController : MonoBehaviour {
 	}
 
 	void Start(){
-
-
-
+		
 		if(pause!=null)
 			this.pause.signalOnClick.AddListener (this.showSettings);
 
@@ -107,15 +104,7 @@ public class LevelController : MonoBehaviour {
 
 	}
 
-	void showSettings() {
-		//Знайти батьківський елемент
-		GameObject parent = UICamera.first.transform.parent.gameObject;
-		//Створити Prefab
-		GameObject obj = NGUITools.AddChild (parent, settingsPrefab);
-		//Отримати доступ до компоненту (щоб передати параметри)
-		SettingsPanel popup = obj.GetComponent<SettingsPanel>();
-		Time.timeScale = 0;
-	} 
+	//музика
 	public void setMusicOff(){
 
 		musicSource.Pause ();
@@ -126,33 +115,38 @@ public class LevelController : MonoBehaviour {
 		musicSource.Play ();
 	}
 
-	public void addCoins(int number)
-	{
-		Debug.Log("Coins collected " + number);
-		coinsNumber++;
-	}
+	//фрукти
 	public void addFruit(int number)
 	{
 		Debug.Log("Fruits collected " + number);
 		fruitsNumber++;
 
 	}
-	public void addCrystal(int number)
-	{
-		Debug.Log("Crystals collected " + number);
-	}
+
 	public int getFruits() {
 		return fruitsNumber;
 	}
-
+	//Монети
 	public int getCoins() {
 		return coinsNumber;
+
+	}
+	public void addCoins(int number)
+	{
+		Debug.Log("Coins collected " + number);
+		coinsNumber++;
+
 	}
 
+	//життя
 	public int getLifes() {
 		return lifesNumber;
 	}
 
+	public void addLife(){
+		if (lifesNumber < 3) lifesNumber++;
+		
+	}
 	void decreaseLifeNumber() {
 		if (lifesNumber <= 0) {
 			//SceneManager.LoadScene ("Levels"); //оновлюемо життя
@@ -163,13 +157,28 @@ public class LevelController : MonoBehaviour {
 		}
 	}
 
+	//кристали
 	public void setCrystalColor(int color) {
 		CrystalColor = color;
+	}
+	public void addCrystal(int number)
+	{
+		Debug.Log("Crystals collected " + number);
 	}
 
 	public int getCurCrystalColor() {
 		return CrystalColor;
 	}
+	//Створення pop ups
+	void showSettings() {
+		//Знайти батьківський елемент
+		GameObject parent = UICamera.first.transform.parent.gameObject;
+		//Створити Prefab
+		GameObject obj = NGUITools.AddChild (parent, settingsPrefab);
+		//Отримати доступ до компоненту (щоб передати параметри)
+		SettingsPanel popup = obj.GetComponent<SettingsPanel>();
+		Time.timeScale = 0;
+	} 
 	void createLosePanel(){
 		//Знайти батьківський елемент
 		GameObject parent = UICamera.first.transform.parent.gameObject;
@@ -181,7 +190,6 @@ public class LevelController : MonoBehaviour {
 	}
 
 	public void createWinPanel(){
-		
 		isLevel1Complated = true;
 		PlayerPrefs.SetInt ("isLevel1Complated", 1);
 		PlayerPrefs.Save ();
@@ -191,16 +199,18 @@ public class LevelController : MonoBehaviour {
 		GameObject obj = NGUITools.AddChild (parent, winPrefab);
 		//Отримати доступ до компоненту (щоб передати параметри)
 		WinPanel win = obj.GetComponent<WinPanel>();
+		Time.timeScale = 1;
 		win.setCoins (this.coinsNumber);
 		win.setFruits (this.fruitsNumber,1);
 		win.setCrystal ();
-		Time.timeScale = 0;
-		collectedCoins += coinsNumber;
-		PlayerPrefs.SetInt ("collectedCoins",collectedCoins);
 
+		collectedCoins += coinsNumber;
+		PlayerPrefs.SetInt ("collectedCoins",30);
+		PlayerPrefs.Save ();
 		if (isLevel1CrysralsCollected)
 			PlayerPrefs.SetInt ("isLevel1CrysralsCollected", 1);
 		PlayerPrefs.Save ();
+
 	}
 
 	public void createWinPanel2(){
@@ -212,8 +222,7 @@ public class LevelController : MonoBehaviour {
 		WinPanel win2 = obj.GetComponent<WinPanel>();
 		win2.setCoins (this.coinsNumber);
 		win2.setFruits (this.fruitsNumber,2);
-		///win2.setCrystal (this.crystalPanel.getObtainedCrystal(),2);
-		Time.timeScale = 0;
+		Time.timeScale = 1;
 		collectedCoins += coinsNumber;
 		PlayerPrefs.SetInt ("collectedCoins",collectedCoins);
 		isLevel2Complated = true;

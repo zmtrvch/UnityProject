@@ -16,6 +16,6 @@ public class FruitsPanel : MonoBehaviour {
 	}
 
 	void write() {
-		Frlabel.text = currentNumber.ToString () + "/" + max;
+		Frlabel.text = LevelController.current.getFruits().ToString () + "/" + max;
 	}
 }
